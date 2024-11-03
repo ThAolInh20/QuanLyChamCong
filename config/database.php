@@ -1,21 +1,22 @@
-
 <?php
-    class Database{
-        private $host = 'localhost';
-        private $db_name = 'attendance_system';
-        private $username = 'root';
-        private $password = '';
-        public $conn;
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "db_quanlychamcong";
 
-        public function getConnection() {
-            $this->conn = null;
-            try {
-                $this->conn = new PDO("mysql:host=" . $this->host . ";dbname=" . $this->db_name, $this->username, $this->password);
-                $this->conn->exec("set names utf8");
-            } catch(PDOException $exception) {
-                echo "Connection error: " . $exception->getMessage();
-            }
-            return $this->conn;
-        }
-    }
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Check connection and handle error
+if ($conn->connect_error) {
+    throw new Exception("Connection failed: " . $conn->connect_error);
+}
+
+// Optionally set the charset
+$conn->set_charset("utf8"); // Set character set if needed
+
+// Your code for querying the database goes here
+
+// Close the connection when done
+// $conn->close(); // Uncomment this line when you are done with the connection
 ?>
