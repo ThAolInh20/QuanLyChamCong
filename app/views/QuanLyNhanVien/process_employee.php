@@ -20,7 +20,7 @@ if ($action == 'add') {
     $luong = $_POST['luong'];
 
     // Add employee
-    $controller->addEmployee($maNV, $tenDangNhap, $matKhau, $thamNien, $email, $sdt, $stk, $diaChi, $chucVu, $luong);
+    $controller->addNV($maNV, $tenDangNhap, $matKhau, $thamNien, $email, $sdt, $stk, $diaChi, $chucVu, $luong);
     header("Location: employee_list.php");
 
 } elseif ($action == 'update') {
@@ -37,13 +37,13 @@ if ($action == 'add') {
     $luong = $_POST['luong'];
 
     // Update employee
-    $controller->updateEmployee($maNV, $tenDangNhap, $matKhau, $thamNien, $email, $sdt, $stk, $diaChi, $chucVu, $luong);
+    $controller->updateNV($maNV, $tenDangNhap, $matKhau, $thamNien, $email, $sdt, $stk, $diaChi, $chucVu, $luong);
     header("Location: employee_list.php");
 
 } elseif ($action == 'delete') {
     $maNV = $_GET['maNV'];
     // Delete employee
-    $controller->deleteEmployee($maNV);
+    $controller->deleteNV($maNV);
     header("Location: employee_list.php");
 }
 ?>

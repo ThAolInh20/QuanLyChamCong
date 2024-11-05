@@ -1,8 +1,9 @@
 <?php
-require_once '../models/NhanVien.php'; // Include your NhanVien model
+require_once(__DIR__ . '/../models/NhanVien.php');
 
 class NhanVienController {
     private $conn;
+    
 
     public function __construct($dbConnection) {
         $this->conn = $dbConnection; // Use the provided database connection

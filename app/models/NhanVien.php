@@ -1,5 +1,5 @@
 <?php
-    require_once '../../config/database.php';
+    require_once(__DIR__ . '/../../config/database.php');
     class NhanVien{
         private $maNV;
         private $tenDangNhap;
@@ -12,6 +12,7 @@
         private $chucVu;
         private $luong;
         private $conn;
+        
         public function __construct($maNV, $tenDangNhap, $matKhau, $thamNien, $email, $sdt, $stk, $diaChi, $chucVu, $luong) {
             $this->maNV = $maNV;
             $this->tenDangNhap = $tenDangNhap;
@@ -118,9 +119,9 @@
     
         //SUA THONG TIN NHA VIEEN
         public function update(){
-            $sql = "UPDATE `nhanvien` SET `TenDangNhap`=?,`MatKhau`=?,`ThamNien`=?,`Email`=?,`SDT`=?,`STK`='?,`DiaChi`=?,`ChucVu`=?,`Luong`=? WHERE MaNV = ?";
+            $sql = "UPDATE `nhanvien` SET `TenDangNhap`=?,`MatKhau`=?,`ThamNien`=?,`Email`=?,`SDT`=?,`STK`=?,`DiaChi`=?,`ChucVu`=?,`Luong`=? WHERE MaNV = ?";
             $stmt = $this->conn->prepare($sql);
-            $stmt->bind_param("ssisiissis" , $this->tenDangNhap, $this->matKhau,$this->thamNien,$this->email,$this->sdt,$this->stk,$this->diaChi,$this->chucVu,$this->Luong,$this->maNV);
+            $stmt->bind_param("ssisiissis" , $this->tenDangNhap, $this->matKhau,$this->thamNien,$this->email,$this->sdt,$this->stk,$this->diaChi,$this->chucVu,$this->luong,$this->maNV);
             $stmt->execute();
             if ($stmt->error) {
                 die('Error: ' . $stmt->error);
@@ -131,7 +132,7 @@
         public function add(){
             $sql = "INSERT INTO `nhanvien`(`MaNV`, `TenDangNhap`, `MatKhau`, `ThamNien`, `Email`, `SDT`, `STK`, `DiaChi`, `ChucVu`, `Luong`) VALUES (?,?,?,?,?,?,?,?,?,?)";
             $stmt = $this->conn->prepare($sql);
-            $stmt->bind_param("sssisiissi", $this->maNV, $this->tenDangNhap, $this->matKhau,$this->thamNien,$this->email,$this->sdt,$this->stk,$this->diaChi,$this->chucVu,$this->Luong);
+            $stmt->bind_param("sssisiissi", $this->maNV, $this->tenDangNhap, $this->matKhau,$this->thamNien,$this->email,$this->sdt,$this->stk,$this->diaChi,$this->chucVu,$this->luong);
             $stmt->execute();
             if ($stmt->error) {
                 die('Error: ' . $stmt->error);
@@ -141,14 +142,58 @@
         //XÓA NHÂN VIÊN
         public function delete(){
             $sql = "DELETE FROM `nhanvien` WHERE ?";
-            $stmt = $this->$conn->prepare($sql);
+            $stmt = $this->conn->prepare($sql);
             $stmt->bind_param("s",$this->maNV);
-            $stmt->excute();
+            $stmt->execute();
             if($stmt->error){
                 die('Error: ' . $stmt->error);
             }
             $stmt->close();
         }
+        public function getNV(){
+            $sql = "SELECT * FROM `nhanvien` WHERE `maNV` = ?";
+            $stmt = $this->conn->prepare($sql);
+        
+            // Kiểm tra xem câu lệnh prepare có thành công không
+            if (!$stmt) {
+                die('Error preparing statement: ' . $this->conn->error);
+            }
+        
+            // Gắn giá trị cho `maNV`
+            $stmt->bind_param("s", $this->maNV);
+            $stmt->execute();
+        
+            // Lấy kết quả
+            $result = $stmt->get_result();
+            if ($result->num_rows > 0) {
+                $row = $result->fetch_assoc();
+        
+                // Tạo đối tượng `NhanVien` và gán giá trị từ kết quả truy vấn
+                $nv = new NhanVien($row['MaNV'], 
+                                    $row['TenDangNhap'], 
+                                    $row['MatKhau'],
+                                    $row['ThamNien'],
+                                    $row['Email'],
+                                    $row['SDT'],
+                                    $row['STK'],
+                                    $row['DiaChi'],
+                                    $row['ChucVu'],
+                                    $row['Luong']);
+                
+             
+        
+                // Đóng kết quả và statement
+                $result->close();
+                
+            } else {
+                echo "Không tìm thấy nhân viên với mã nhân viên này.";
+                $nv = null;
+            }
+        
+            $stmt->close();
+            return $nv;
+        }
+        
 
         //XEM DANH SÁCH NHÂN VIÊN
         public function getALL(){
