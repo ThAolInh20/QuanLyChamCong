@@ -141,7 +141,7 @@
         }
         //XÓA NHÂN VIÊN
         public function delete(){
-            $sql = "DELETE FROM `nhanvien` WHERE ?";
+            $sql = "DELETE FROM `nhanvien` WHERE `maNV` = ?";
             $stmt = $this->conn->prepare($sql);
             $stmt->bind_param("s",$this->maNV);
             $stmt->execute();

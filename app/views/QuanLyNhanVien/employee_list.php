@@ -35,7 +35,8 @@ $employees = $nhanVien->getALL();
             <tbody>
                 <?php foreach ($employees as $employee) : ?>
                     <tr>
-                        <td><?php echo $employee->getMaNV(); ?></td>
+                        
+                        <td><a href="edit_employee.php?maNV=<?php echo $employee->getMaNV(); ?>"><?php echo $employee->getMaNV(); ?></a></td>
                         <td><?php echo $employee->getTenDangNhap(); ?></td>
                         <td><?php echo $employee->getEmail(); ?></td>
                         <td><?php echo $employee->getChucVu(); ?></td>

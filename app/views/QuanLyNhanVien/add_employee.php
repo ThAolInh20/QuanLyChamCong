@@ -12,10 +12,7 @@
     <div class="container mt-5">
         <h1 class="mb-4">Add Employee</h1>
         <form action="process_employee.php?action=add" method="POST">
-            <div class="mb-3">
-                <label for="maNV" class="form-label">Mã NV:</label>
-                <input type="text" class="form-control" id="maNV" name="maNV" required>
-            </div>
+            
 
             <div class="mb-3">
                 <label for="tenDangNhap" class="form-label">Tên Đăng Nhập:</label>

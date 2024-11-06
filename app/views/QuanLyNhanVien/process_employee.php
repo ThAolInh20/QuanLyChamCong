@@ -6,6 +6,7 @@ $controller = new NhanVienController($conn);
 
 $action = $_GET['action'];
 
+
 if ($action == 'add') {
     // Retrieve data from the form
     $maNV = $_POST['maNV'];
@@ -21,7 +22,14 @@ if ($action == 'add') {
 
     // Add employee
     $controller->addNV($maNV, $tenDangNhap, $matKhau, $thamNien, $email, $sdt, $stk, $diaChi, $chucVu, $luong);
-    header("Location: employee_list.php");
+    
+    echo "<script>
+    alert('Thêm thành công!');
+    setTimeout(function() {
+        
+        window.location.href = 'employee_list.php'; // Chuyển hướng sau 2 giây
+    }, 2000); // Delay 2 giây (2000ms)
+</script>";
 
 } elseif ($action == 'update') {
     // Retrieve data from the form
@@ -38,12 +46,24 @@ if ($action == 'add') {
 
     // Update employee
     $controller->updateNV($maNV, $tenDangNhap, $matKhau, $thamNien, $email, $sdt, $stk, $diaChi, $chucVu, $luong);
-    header("Location: employee_list.php");
+    echo "<script>
+    alert('Cập nhật thành công!');
+    setTimeout(function() {
+        window.location.href = 'employee_list.php'; // Chuyển hướng sau 2 giây
+    }, 400); // Delay 2 giây (2000ms)
+</script>";
+   
 
 } elseif ($action == 'delete') {
     $maNV = $_GET['maNV'];
     // Delete employee
     $controller->deleteNV($maNV);
-    header("Location: employee_list.php");
+    echo "<script>
+    alert('Xóa thành công!');
+    setTimeout(function() {
+        
+        window.location.href = 'employee_list.php'; // Chuyển hướng sau 2 giây
+    }, 500); // Delay 2 giây (2000ms)
+</script>";
 }
 ?>
